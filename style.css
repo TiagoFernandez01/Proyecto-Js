@@ -1,0 +1,44 @@
+body {
+    background-color: aquamarine;
+}
+
+.titulo {
+    align-content: center;
+    background-color: antiquewhite;
+    text-align: center;
+}
+
+body,html {
+    padding:0;
+    margin:0;
+    height:100%;
+    
+}
+
+.campos {
+
+    background-color: whitesmoke;
+    align-content: center;
+    text-align: center;
+}
+
+.boton{
+    align-content: center;
+    background-color: rgb(32, 238, 169);
+    text-align: center;
+    height: auto;
+}
+
+.resumen {
+    background-color: wheat;
+    align-content: center;
+    text-align: center;
+    margin-top: 100px ;
+}
+
+.tamanio-boton{
+    height: 30px;
+    width: 200px;
+    background-color: rgb(184, 224, 222);
+
+}

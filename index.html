@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <title>Document</title>
+</head>
+
+<body>
+
+    <head>
+        <div>
+            <h1 class="titulo" id="encabezado">Cotiza tu seguro al instante!</h1>
+
+        </div>
+
+
+    </head>
+
+    <main>
+        <div class="campos">
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre">
+
+            <label for="apellido">Apellido:</label>
+            <input type="text" id="apellido">
+            <br><br>
+            <label for="dni">DNI:</label>
+            <input type="number" id="dni"> <br> <br>
+            <button type="button" id="guardar">Aceptar</button>
+        </div>
+<br>
+
+        <div class="campos" id="selectores">
+            <div id="div-1">
+                <label>Marca</label>
+
+                <select name="marcas" id="marcas">
+
+                </select>
+            </div>
+
+            <br><br>
+
+            <div id="div-2">
+                <label>Año</label>
+
+                <select name="year" id="years">
+                    <option value="">--Seleccionar--</option>
+
+                </select>
+            </div>
+        </div>
+        <br>
+        <div class="campos">
+            <input type="radio" name="btn" id="basico"> Básico
+            <input type="radio" name="btn"  id="completo"> Completo
+            <input type="radio" name="btn"  id="premium"> Premium
+
+        </div>
+        <br> <br>
+        <div class="boton">
+            <button class="tamanio-boton" type="button" id="boton-1">COTIZAR</button>
+        </div>
+        <div id="contenedor-3"></div>
+        <div class="resumen" id="divResumen">
+            
+        </div>
+
+
+    </main>
+
+    <script src="script.js"></script>
+
+    
+    
+</body>
+
+</html>
