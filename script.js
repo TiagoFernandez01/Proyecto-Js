@@ -28,7 +28,7 @@ const marcas = [{
 
 marcas.sort();
 
-console.log(marcas);
+
 
 
 
@@ -45,6 +45,8 @@ const planes = [{
     planNombre: "premium",
 }];
 
+//array vacio para cargar datos de usuario
+
 const usuarios = [];
 
 
@@ -58,6 +60,8 @@ let opcionVacia = document.createElement("option");
 opcionVacia.innerText = "--Seleccionar--";
 opcionVacia.value = "";
 selectMarcas.append(opcionVacia);
+
+
 
 
 // Recorrido de array
@@ -75,8 +79,14 @@ marcas.forEach((marcas) => {
 
 
 //agrego lista de años
-const year = [2022, 2021, 2020, 2019, 2018, 2017, 2016, 2015, 2014, 2013, 2012, 2011, 2010, 2009, 2008, 2007, 2006, 2005, 2004, 2003, 2002]
+const year = [2022, 2021, 2020, 2019, 2018, 2017, 2016, 2015, 2014, 2013, 2012, 2011, 2010, 2009, 2008, 2007, 2006, 2005, 2004, 2003, 2002];
+
 let selectYears = document.getElementById("years");
+
+let opcionVaciaYear = document.createElement("option");
+opcionVaciaYear.innerText = "--Seleccionar--";
+opcionVaciaYear.value = ' ';
+selectYears.append(opcionVaciaYear);
 
 
 // creo la etiqueta "P" para dar aviso de su seleccion
@@ -100,9 +110,9 @@ year.forEach((year) => {
 });
 
 
-
+//accedo al boton guardar
 let botonGuardar = document.getElementById("guardar");
-
+//creo evento para guardar datos de usuario
 botonGuardar.addEventListener("click", () => {
 
     Swal.fire({
@@ -123,7 +133,7 @@ botonGuardar.addEventListener("click", () => {
     //llamo a la funcionque guarda datos
 
     guardarDatosDeUsuario();
-   /*  agregarAlLucalStorage (usuarios); */
+    /*  agregarAlLucalStorage (usuarios); */
 
 
 
@@ -144,22 +154,7 @@ let resumen = document.getElementById("divResumen");
 boton.addEventListener("click", () => {
 
     const valorMarca = selectMarcas.value;
-    const valorYears = selectYears.value;
-
-    avisoanio.innerText = "Año del motovehiculo: " + valorYears;
-
-    divResumen.append(avisoanio);
-
-
-    avisoMarca.innerText = "marca del motovehiculo: " + valorMarca;
-
-    divResumen.append(avisoMarca);
-
-
-
-
-
-
+    const valorYears = parseInt(selectYears.value);
 
 
     //accedo a los tipos de planes mediante ID
@@ -168,7 +163,7 @@ boton.addEventListener("click", () => {
     let premium = document.getElementById("premium");
 
     let plan = ""
-    //asigbno plan a la variable vacia 
+    //asigno plan a la variable vacia 
 
     if (basico.checked) {
         plan = "basico";
@@ -178,89 +173,93 @@ boton.addEventListener("click", () => {
         plan = "premium";
     }
     //valido que completen los campos requridos
-    if (valorMarca == "" || valorYears == "" || plan == "") {
-        alert("Complete todos los campos");
+    if (valorMarca === "" || valorYears === "" || plan === "") {
+        Swal.fire({
+            icon: 'error',
+            title: 'ERROR',
+            text: 'Complete los campos correctamente, por favor.',
+            footer: 'Cotiza tu seguro al instante sin compromiso'
+        })
+    } else {
+        //muestro el resultado final 
+
+        avisoPlan.innerText = "Plan seleccionado: " + plan;
+
+        divResumen.append(avisoPlan);
+
+        let cotizacion = { plan, valorYears, valorMarca }
+
+
+        let cotizacionFinal = (cotizar(cotizacion));
+
+        avisoanio.innerText = "Año del motovehiculo: " + valorYears;
+
+        divResumen.append(avisoanio);
+
+        avisoMarca.innerText = "marca del motovehiculo: " + valorMarca;
+
+        divResumen.append(avisoMarca);
+
+        resultadoCotizacion.innerText = "Precio final: " + cotizacionFinal;
+        divResumen.append(resultadoCotizacion);
     }
-
-
-
-    avisoPlan.innerText = "Plan seleccionado: " + plan;
-
-    divResumen.append(avisoPlan);
-
-    let cotizacion = { plan, year }
-
-
-    let cotizacionFinal = cotizar(cotizacion);
-
-
-    resultadoCotizacion.innerText = "Precio final: " + cotizacionFinal;
-    divResumen.append(resultadoCotizacion);
-
-    console.log(cotizacionFinal);
-
-    ///////////////////////////////////////////////////////////////////////////
 
 })
 
 
-
+//creo la funcion cotizar que realizara toda la operación
 const cotizar = (cotizacion) => {
-    const { plan, year } = cotizacion;
+    const { plan, valorYears, valorMarca } = cotizacion;
+    //inicializo un precio base
+    let precioBase = 1300;
+    //multiplclio el precio base segun lo seleccionado por el usuario 
+    const aumentoPorAnio = aumentoAnios(valorYears);
+    precioBase = parseInt(precioBase * aumentoPorAnio);
 
-    let precioBase = 2000;
-
-    const aumentoPorAnio = aumentoAnios(year);
-    
-    precioBase = (precioBase * aumentoPorAnio);
-
-
-    /* precioBase = calcularMarca(marca) * precioBase; */
+    const aumentoPorMarca = aumentoMarca(valorMarca);
+    precioBase = precioBase * aumentoPorMarca;
 
     const planObtenido = aumentoPlan(plan);
 
-    precioBase = parseFloat(planObtenido * precioBase).toFixed(2);
+    precioBase = parseInt(planObtenido * precioBase);
 
     return precioBase;
 
 
 
 }
-
-const aumentoAnios = (year) => {
-
-  let aumento;
-
-  switch(year){
-      case 2018:
-           aumento = 0.1;
-            break;
-      case 2019: 
-      aumento = 0.1; 
-      break;
-      case 2020: 
-      aumento = 0.1;
-       break;
-      case 2021 :
-           aumento = 0.1;
-       break;
-      case 2022 :
-           aumento = 0.1;
-       break;
-  }
-  return aumento;
+//creo la funcion que agregara porcentaje segun el AÑO seleccionado
+const aumentoAnios = (valorYears) => {
 
 
 
+    let aumento;
+
+    if (valorYears === 2022 || valorYears === 2021 || valorYears === 2020 || valorYears === 2019 || valorYears === 2018) {
+        aumento = 1.50
+    } else if (valorYears === 2017 || valorYears === 2016 || valorYears === 2015 || valorYears === 2014 || valorYears === 2013) {
+        aumento = 1.20
+    } else {
+        aumento = 1.10
+    }
+    return aumento;
 }
 
+//creo la funcion que agregara el procentaje segun la MARCA seleccionada
+const aumentoMarca = (valorMarca) => {
 
-/* const calcularMarca = marca => {
-    let porcentajeAniadido;
+    let aumento
 
-} */
+    if (valorMarca === "suzuki" || valorMarca === "ducati" || valorMarca === "yamaha" || valorMarca === "honda" || valorMarca === "benelli" || valorMarca === "ktm" || valorMarca === "rouser") {
+        aumento = 1.50
+    } else {
+        aumento = 1.10
+    }
 
+    return aumento;
+}
 
+//creo la funcion que agregara el procentaje segun la PLAN seleccionada
 const aumentoPlan = plan => {
 
     let aumento;
@@ -273,19 +272,11 @@ const aumentoPlan = plan => {
         aumento = 1.35;
     }
     return aumento;
-
 }
 
 
-
-
-
-
-
-
-
-
 // CREO la funcion que va a guardar los datos ingresados por el susuario
+
 function guardarDatosDeUsuario() {
     const nombreElement = document.getElementById("nombre");
 
@@ -303,7 +294,7 @@ function guardarDatosDeUsuario() {
 
 
 
-    usuarios.push({nombre, apellido, dni});
+    usuarios.push({ nombre, apellido, dni });
 
     localStorage.setItem("datos", JSON.stringify(usuarios));
 
