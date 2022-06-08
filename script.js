@@ -10,6 +10,7 @@ let encabezado = document.getElementById("encabezado");
 
 //creo array de objetos, cada uno con sus marcas
 
+
 const marcas = [{
     nombre: "ducati",
 },
@@ -22,7 +23,10 @@ const marcas = [{
 { nombre: "ktm", },
 { nombre: "beneilli", },
 { nombre: "gilera", },
-{ nombre: "rouser", }];
+{nombre: "rouser", }];
+
+
+
 
 //Ordeno el array alfabeticamente
 
@@ -65,6 +69,10 @@ selectMarcas.append(opcionVacia);
 
 
 // Recorrido de array
+
+
+
+
 marcas.forEach((marcas) => {
 
 
@@ -112,6 +120,8 @@ year.forEach((year) => {
 
 //accedo al boton guardar
 let botonGuardar = document.getElementById("guardar");
+
+
 //creo evento para guardar datos de usuario
 botonGuardar.addEventListener("click", () => {
 
@@ -165,6 +175,7 @@ boton.addEventListener("click", () => {
     let plan = ""
     //asigno plan a la variable vacia 
 
+
     if (basico.checked) {
         plan = "basico";
     } else if (completo.checked) {
@@ -211,7 +222,7 @@ boton.addEventListener("click", () => {
 const cotizar = (cotizacion) => {
     const { plan, valorYears, valorMarca } = cotizacion;
     //inicializo un precio base
-    let precioBase = 1300;
+    let precioBase = 1100;
     //multiplclio el precio base segun lo seleccionado por el usuario 
     const aumentoPorAnio = aumentoAnios(valorYears);
     precioBase = parseInt(precioBase * aumentoPorAnio);
