@@ -6,35 +6,21 @@ Swal.fire({
 
 let encabezado = document.getElementById("encabezado");
 
-
-
 //creo array de objetos, cada uno con sus marcas
 
 
-const marcas = [{
-    nombre: "ducati",
-},
-{ nombre: "yamaha", },
-{ nombre: "motomel", },
-{ nombre: "honda" },
-{ nombre: "zanella", },
-{ nombre: "corven", },
-{ nombre: "suzuki", },
-{ nombre: "ktm", },
-{ nombre: "beneilli", },
-{ nombre: "gilera", },
-{nombre: "rouser", }];
-
-
-
-
-//Ordeno el array alfabeticamente
-
-marcas.sort();
-
-
-
-
+const marcas = [
+    { nombre: "ducati" },
+    { nombre: "yamaha" },
+    { nombre: "motomel" },
+    { nombre: "honda" },
+    { nombre: "zanella" },
+    { nombre: "corven" },
+    { nombre: "suzuki" },
+    { nombre: "ktm" },
+    { nombre: "beneilli" },
+    { nombre: "gilera" },
+    { nombre: "rouser" }];
 
 
 //creo ARRAY de planes
@@ -54,10 +40,6 @@ const planes = [{
 const usuarios = [];
 
 
-
-
-
-
 let selectMarcas = document.getElementById("marcas");
 
 
@@ -68,24 +50,16 @@ opcionVacia.value = "";
 selectMarcas.append(opcionVacia);
 
 
-
-
 // Recorrido de array
 
-
-
-
 marcas.forEach((marcas) => {
-
 
     let option = document.createElement("option");
     option.innerText = marcas.nombre;
     option.value = marcas.nombre;
 
-
     selectMarcas.append(option);
 });
-
 
 
 //agrego lista de años
@@ -93,23 +67,15 @@ const year = [2022, 2021, 2020, 2019, 2018, 2017, 2016, 2015, 2014, 2013, 2012, 
 
 let selectYears = document.getElementById("years");
 
-let opcionVaciaYear = document.createElement("option");
-opcionVaciaYear.innerText = "--Seleccionar--";
-opcionVaciaYear.value = ' ';
-selectYears.append(opcionVaciaYear);
-
 
 // creo la etiqueta "P" para dar aviso de su seleccion
 let avisoMarca = document.createElement("p");
 let avisoanio = document.createElement("p");
 let avisoPlan = document.createElement("p");
 let resultadoCotizacion = document.createElement("p");
-let divPlanViejo = document.getElementById("divPlanes")
+let divPlanViejo = document.getElementById("divPlanes");
 //recorro el array y creo options al select
 year.forEach((year) => {
-
-
-
 
     let option = document.createElement("option");
     option.innerText = year;
@@ -147,10 +113,7 @@ botonGuardar.addEventListener("click", () => {
     guardarDatosDeUsuario();
     /*  agregarAlLucalStorage (usuarios); */
 
-
-
 })
-
 
 
 //Obtengo boton por id
@@ -158,7 +121,7 @@ boton = document.getElementById("boton-1");
 
 //obtengo contendor donde se mostrara el resumen
 
-let resumen = document.getElementById("divResumen");
+/* let resumen = document.getElementById("divResumen"); */
 
 
 //CREO EVENTO CLICK PARA EL BOTON COTIZAR
@@ -169,24 +132,7 @@ boton.addEventListener("click", () => {
     const valorYears = parseInt(selectYears.value);
 
 
-    //accedo a los tipos de planes mediante ID
-    let basico = document.getElementById("basico");
-    let completo = document.getElementById("completo");
-    let premium = document.getElementById("premium");
-
-    let plan = ""
-    //asigno plan a la variable vacia 
-
-
-    if (basico.checked) {
-        plan = "basico";
-    } else if (completo.checked) {
-        plan = "completo";
-    } else if (premium.checked) {
-        plan = "premium";
-    }
-
-    
+    let plan = planFinal();
 
     //valido que completen los campos requridos
     if (valorMarca === "" || valorYears === "" || plan === "") {
@@ -218,42 +164,53 @@ boton.addEventListener("click", () => {
 
         resultadoCotizacion.innerText = "Precio final: " + cotizacionFinal;
         divResumen.append(resultadoCotizacion);
-    }
 
-    guardarPlanes();
+        guardarPlanes();
+    }
 
 })
 
 
 
 let botonPlanes = document.getElementById("boton-2");
+let avisoMarcaVieja = document.createElement("p");
+let avisoAnioViejo = document.createElement("p");
+let avisoPlanViejo = document.createElement("p");
+let tituloCotizacion = document.createElement("p");
+let avisoCotizacionVieja = document.createElement("p");
 
 //CREO funcion para mostrar la ultima cotizacion hecha
-botonPlanes.addEventListener('click' , () => {
-
-    
-
-    let marcaVieja = (localStorage.getItem ("marca"));
-    let anioViejo = (localStorage.getItem ("año"));
-    let planViejo = (localStorage.getItem ("plan"));
-
-    let avisoMarcaVieja = document.createElement("p");
-    let avisoAnioViejo = document.createElement("p");
-    let avisoPlanViejo = document.createElement("p");
-    let cotizacioneVieja = document.createElement("p");
+botonPlanes.addEventListener('click', () => {
 
 
-    cotizacioneVieja.innerText = "COTIZACIONES"
+    if (localStorage.getItem("marca") || localStorage.getItem("año") || localStorage.getItem("plan")) {
 
-    avisoMarcaVieja.innerText = "Marca: " + marcaVieja;
-    avisoAnioViejo.innerText = "Año: " + anioViejo;
-    avisoPlanViejo.innerText = "Plan: " + planViejo;
+        let marcaVieja = (localStorage.getItem("marca"));
+        let anioViejo = (localStorage.getItem("año"));
+        let planViejo = (localStorage.getItem("plan"));
+        let antiguaCotizacion = (localStorage.getItem("precio"))
 
-    divPlanViejo.append(avisoMarcaVieja);
-    divPlanViejo.append(avisoAnioViejo);
-    divPlanViejo.append(avisoPlanViejo);
-    
+        tituloCotizacion.innerText = "Cotizacion anterior"
 
+        avisoMarcaVieja.innerText = "Marca: " + marcaVieja;
+        avisoAnioViejo.innerText = "Año: " + anioViejo;
+        avisoPlanViejo.innerText = "Plan: " + planViejo;
+        avisoCotizacionVieja.innerText = "Pecio Final: " + antiguaCotizacion;
+
+        divPlanViejo.append(tituloCotizacion);
+        divPlanViejo.append(avisoMarcaVieja);
+        divPlanViejo.append(avisoAnioViejo);
+        divPlanViejo.append(avisoPlanViejo);
+        divPlanViejo.append(avisoCotizacionVieja);
+
+    } else {
+        Swal.fire({
+            icon: 'error',
+            title: 'ERROR',
+            text: ' Aún no realizó su primera cotizacion.',
+            footer: 'Cotiza tu seguro al instante sin compromiso'
+        })
+    }
 })
 
 
@@ -278,6 +235,7 @@ const cotizar = (cotizacion) => {
 
 
 }
+
 //creo la funcion que agregara porcentaje segun el AÑO seleccionado
 const aumentoAnios = (valorYears) => {
 
@@ -351,11 +309,33 @@ function guardarDatosDeUsuario() {
 }
 
 
-
 function guardarPlanes() {
 
+    let plan = planFinal();
+
+    const valorMarca = selectMarcas.value;
+    const valorYears = parseInt(selectYears.value);
+
+    let cotizacion = { plan, valorYears, valorMarca };
+
+    let cotizacionFinalVijea = (cotizar(cotizacion));
+
+    let marca = valorMarca;
+
+    let anio = valorYears;
+
+
+    localStorage.setItem("marca", JSON.stringify(marca));
+    localStorage.setItem("año", JSON.stringify(anio));
+    localStorage.setItem("plan", JSON.stringify(plan));
+    localStorage.setItem("precio", JSON.stringify(cotizacionFinalVijea));
+
+}
+
+
+function planFinal() {
     let plan = ""
-     
+
     if (basico.checked) {
         plan = "basico";
     } else if (completo.checked) {
@@ -364,22 +344,9 @@ function guardarPlanes() {
         plan = "premium";
     }
 
-    const marcalElegida = selectMarcas.value;
-    const anioElegido = parseInt(selectYears.value);
-
-
-    let marca = marcalElegida;
-
-    let anio = anioElegido;
-
-
-
-
-localStorage.setItem("marca", JSON.stringify(marca));
-localStorage.setItem("año", JSON.stringify(anio));
-localStorage.setItem("plan", JSON.stringify(plan));
-    
+    return plan;
 }
+
 
 
 
