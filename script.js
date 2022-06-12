@@ -56,6 +56,8 @@ const usuarios = [];
 
 
 
+
+
 let selectMarcas = document.getElementById("marcas");
 
 
@@ -102,7 +104,7 @@ let avisoMarca = document.createElement("p");
 let avisoanio = document.createElement("p");
 let avisoPlan = document.createElement("p");
 let resultadoCotizacion = document.createElement("p");
-
+let divPlanViejo = document.getElementById("divPlanes")
 //recorro el array y creo options al select
 year.forEach((year) => {
 
@@ -183,6 +185,9 @@ boton.addEventListener("click", () => {
     } else if (premium.checked) {
         plan = "premium";
     }
+
+    
+
     //valido que completen los campos requridos
     if (valorMarca === "" || valorYears === "" || plan === "") {
         Swal.fire({
@@ -214,6 +219,40 @@ boton.addEventListener("click", () => {
         resultadoCotizacion.innerText = "Precio final: " + cotizacionFinal;
         divResumen.append(resultadoCotizacion);
     }
+
+    guardarPlanes();
+
+})
+
+
+
+let botonPlanes = document.getElementById("boton-2");
+
+//CREO funcion para mostrar la ultima cotizacion hecha
+botonPlanes.addEventListener('click' , () => {
+
+    
+
+    let marcaVieja = (localStorage.getItem ("marca"));
+    let anioViejo = (localStorage.getItem ("año"));
+    let planViejo = (localStorage.getItem ("plan"));
+
+    let avisoMarcaVieja = document.createElement("p");
+    let avisoAnioViejo = document.createElement("p");
+    let avisoPlanViejo = document.createElement("p");
+    let cotizacioneVieja = document.createElement("p");
+
+
+    cotizacioneVieja.innerText = "COTIZACIONES"
+
+    avisoMarcaVieja.innerText = "Marca: " + marcaVieja;
+    avisoAnioViejo.innerText = "Año: " + anioViejo;
+    avisoPlanViejo.innerText = "Plan: " + planViejo;
+
+    divPlanViejo.append(avisoMarcaVieja);
+    divPlanViejo.append(avisoAnioViejo);
+    divPlanViejo.append(avisoPlanViejo);
+    
 
 })
 
@@ -310,6 +349,42 @@ function guardarDatosDeUsuario() {
     localStorage.setItem("datos", JSON.stringify(usuarios));
 
 }
+
+
+
+function guardarPlanes() {
+
+    let plan = ""
+     
+    if (basico.checked) {
+        plan = "basico";
+    } else if (completo.checked) {
+        plan = "completo";
+    } else if (premium.checked) {
+        plan = "premium";
+    }
+
+    const marcalElegida = selectMarcas.value;
+    const anioElegido = parseInt(selectYears.value);
+
+
+    let marca = marcalElegida;
+
+    let anio = anioElegido;
+
+
+
+
+localStorage.setItem("marca", JSON.stringify(marca));
+localStorage.setItem("año", JSON.stringify(anio));
+localStorage.setItem("plan", JSON.stringify(plan));
+    
+}
+
+
+
+
+
 
 
 
